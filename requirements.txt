@@ -1,0 +1,9 @@
+python-telegram-bot==20.6
+aiocryptopay==0.4.8
+httpx==0.25.2
+fastapi==0.136.1
+uvicorn==0.46.0
+bcrypt==5.0.0
+pydantic==2.12.5
+paramiko
+APScheduler==3.10.4

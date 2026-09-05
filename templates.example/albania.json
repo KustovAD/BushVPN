@@ -1,0 +1,101 @@
+{
+  "log": {
+    "level": "warn",
+    "timestamp": true
+  },
+  "dns": {
+    "servers": [
+      {
+        "type": "https",
+        "tag": "cloudflare",
+        "server": "1.1.1.1",
+        "path": "/dns-query"
+      },
+      {
+        "type": "https",
+        "tag": "google",
+        "server": "8.8.8.8",
+        "path": "/dns-query"
+      }
+    ],
+    "strategy": "ipv4_only",
+    "independent_cache": true,
+    "final": "cloudflare"
+  },
+  "inbounds": [
+    {
+      "type": "vless",
+      "tag": "vless-in",
+      "listen": "0.0.0.0",
+      "listen_port": 443,
+      "tcp_fast_open": false,
+      "users": [],
+      "tls": {
+        "enabled": true,
+        "server_name": "www.cloudflare.com",
+        "reality": {
+          "enabled": true,
+          "handshake": {
+            "server": "www.cloudflare.com",
+            "server_port": 443
+          },
+          "private_key": "REPLACE_ME",
+          "short_id": [
+            "REPLACE_ME"
+          ]
+        }
+      }
+    }
+  ],
+  "outbounds": [
+    {
+      "type": "direct",
+      "tag": "direct",
+      "domain_resolver": {
+        "server": "cloudflare",
+        "strategy": "ipv4_only"
+      },
+      "tcp_fast_open": true,
+      "tcp_keep_alive": "30s",
+      "connect_timeout": "10s"
+    }
+  ],
+  "route": {
+    "auto_detect_interface": true,
+    "default_domain_resolver": {
+      "server": "cloudflare",
+      "strategy": "ipv4_only"
+    },
+    "rules": [
+      {
+        "inbound": [
+          "vless-in"
+        ],
+        "action": "sniff",
+        "timeout": "800ms"
+      },
+      {
+        "action": "resolve",
+        "strategy": "ipv4_only"
+      },
+      {
+        "protocol": "dns",
+        "action": "hijack-dns"
+      },
+      {
+        "protocol": "quic",
+        "action": "reject"
+      },
+      {
+        "ip_version": 6,
+        "action": "reject"
+      }
+    ],
+    "final": "direct"
+  },
+  "experimental": {
+    "cache_file": {
+      "enabled": true
+    }
+  }
+}

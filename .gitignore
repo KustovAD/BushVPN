@@ -1,0 +1,45 @@
+# Secrets and local credentials
+config.py
+servers.py
+.env
+.env.*
+
+# Templates with Reality private keys
+templates/
+
+# Generated node configs (user UUIDs)
+generated/
+
+# Databases
+*.db
+*.db-journal
+*.db.backup
+*.sqlite
+*.sqlite3
+
+# Logs
+*.log
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+venv/
+.venv/
+*.egg-info/
+
+# Node
+node_modules/
+
+# Backups and editor junk
+*.save
+*.save.*
+*.backup
+*~
+UserseradaDesktopBushVPN
+~DesktopBushVPN
+~UserseradaDesktop
+~UserseradaDesktopBushVPN
+
+# OS
+.DS_Store
